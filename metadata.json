@@ -1,0 +1,5 @@
+{
+  "name": "Audio Transcript Translator",
+  "description": "This application generates a timestamped transcript from user-provided text and translates it into various conversational languages like Hinglish, Manglish, and Tamil.",
+  "requestFramePermissions": []
+}

@@ -117,13 +117,29 @@ export const translateTranscript = async (transcript: TranscriptItem[], language
           "text": "Nammal AI-ine kurichu charcha cheyyum."
         }
       ]`;
-    } else if (language === 'Tamil') {
-      targetLanguageInstruction = 'conversational Tamil';
+    } else if (language === 'Tamil (Tanglish)') {
+      targetLanguageInstruction = 'Tanglish (conversational Tamil written phonetically using English letters)';
       specialInstructions = `
-      IMPORTANT TAMIL TRANSLATION RULE:
+      IMPORTANT TANGLISH TRANSLATION RULE:
       - Translate into a natural, conversational style.
-      - Do NOT translate common technical English words (e.g., AI, podcast, software, database).
-      - Instead, write these English words phonetically using the Tamil script (transliteration). For example, 'AI' becomes 'ஏஐ', and 'podcast' becomes 'பாட்காஸ்ட்'.`;
+      - The output text must be written phonetically using English letters (Tanglish).
+      - Do NOT translate common technical English words (e.g., AI, podcast, software, database). Keep them in English.`;
+      exampleOutput = `[
+        {
+          "timestamp": "00:02-00:05",
+          "text": "Vanakkam matrum varaverkirom."
+        },
+        {
+          "timestamp": "00:06-00:10",
+          "text": "Naam AI patri vivaathippom."
+        }
+      ]`;
+    } else if (language === 'Tamil (Script)') {
+      targetLanguageInstruction = 'Tamil language using the Tamil script';
+       specialInstructions = `
+      IMPORTANT TRANSLATION RULE:
+      - Translate into a natural, conversational Tamil.
+      - The output text MUST be in the Tamil script.`;
       exampleOutput = `[
         {
           "timestamp": "00:02-00:05",
@@ -131,7 +147,7 @@ export const translateTranscript = async (transcript: TranscriptItem[], language
         },
         {
           "timestamp": "00:06-00:10",
-          "text": "நாம் ஏஐ பற்றி விவாதிப்போம்."
+          "text": "நாம் AI பற்றி விவாதிப்போம்."
         }
       ]`;
     } else { // Generic example for other languages like Spanish

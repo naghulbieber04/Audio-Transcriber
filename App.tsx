@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { jsPDF } from 'jspdf';
 import { generateTranscriptFromAudio, translateTranscript } from './services/geminiService';
+import { NotoSansTamilBase64 } from './services/noto-sans-tamil-font';
 import type { TranscriptItem } from './types';
 import LoadingSpinner from './components/LoadingSpinner';
 import ErrorMessage from './components/ErrorMessage';
@@ -153,27 +154,26 @@ const App: React.FC = () => {
     const originalFileName = audioFile.name;
     const baseName = originalFileName.substring(0, originalFileName.lastIndexOf('.')) || originalFileName;
     
-    const fullText = translation.map(item => `[${item.timestamp}] ${item.text}`).join('\n');
-
-    if (selectedLanguage === 'Tamil (Script)') {
-      const fileName = `${baseName}_translation.txt`;
-      const blob = new Blob([fullText], { type: 'text/plain;charset=utf-8' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(link.href);
-      return;
-    }
-
-    // Default to PDF for all other languages
     const doc = new jsPDF();
     const fileName = `${baseName}_translation.pdf`;
 
-    // Prepare content
-    let title = getTranslationTitle();
+    // --- Font Setup ---
+    const isTamilScript = selectedLanguage === 'Tamil (Script)';
+    if (isTamilScript) {
+      // Embed the Noto Sans Tamil font to correctly render Tamil characters in the PDF.
+      doc.addFileToVFS('NotoSansTamil-Regular.ttf', NotoSansTamilBase64);
+      doc.addFont('NotoSansTamil-Regular.ttf', 'NotoSansTamil', 'normal');
+      doc.addFont('NotoSansTamil-Regular.ttf', 'NotoSansTamil', 'bold'); // Register same font for bold style
+    }
+    
+    const setDocFont = (style: 'normal' | 'bold' = 'normal') => {
+        const fontName = isTamilScript ? 'NotoSansTamil' : 'helvetica';
+        doc.setFont(fontName, style);
+    };
+    
+    // --- PDF Content ---
+    const fullText = translation.map(item => `[${item.timestamp}] ${item.text}`).join('\n');
+    const title = getTranslationTitle();
 
     // PDF layout variables
     const pageHeight = doc.internal.pageSize.getHeight();
@@ -183,13 +183,13 @@ const App: React.FC = () => {
     const lineHeight = 7;
 
     // Add title
-    doc.setFont("helvetica", "bold");
+    setDocFont('bold');
     doc.setFontSize(16);
     doc.text(title, margin, y);
     y += 15; // Space after title
 
     // Add content
-    doc.setFont("helvetica", "normal");
+    setDocFont('normal');
     doc.setFontSize(10);
     
     const splitText = doc.splitTextToSize(fullText, pageWidth - margin * 2);
@@ -199,7 +199,7 @@ const App: React.FC = () => {
             doc.addPage();
             y = margin;
             // Re-set font on new page
-            doc.setFont("helvetica", "normal");
+            setDocFont('normal');
             doc.setFontSize(10);
         }
         doc.text(line, margin, y);

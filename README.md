@@ -2,6 +2,10 @@
 
 This application generates a timestamped transcript from an audio file and translates it into various languages, including conversational variants. It provides a simple and efficient way to get multilingual transcripts for your audio content.
 
+## Live Preview
+
+[Click here to access the live preview of the application.](</>)
+
 ## Features
 
 -   **Audio Transcription**: Upload an audio file (MP3, WAV, M4A, etc.) and get an accurate, timestamped transcript.

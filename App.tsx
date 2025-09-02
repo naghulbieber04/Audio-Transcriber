@@ -282,6 +282,10 @@ const App: React.FC = () => {
             </div>
           )}
         </main>
+        <footer className="text-center py-8 text-gray-500 text-sm opacity-75">
+          <p>Designed and created by Naghul Maruthasalam</p>
+          <p className="mt-1">AI Enthusiast, Developer, Edtech, Business Associate, KGISL EDU</p>
+        </footer>
       </div>
     </div>
   );

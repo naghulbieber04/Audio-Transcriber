@@ -4,9 +4,7 @@ This application generates a timestamped transcript from an audio file and trans
 
 ## Live Preview
 
-[![Open Live Preview](https://img.shields.io/badge/Live%20Preview-Open-blue?style=for-the-badge)](https://replace-with-your-live-preview-url.com)
-
-_Note to repository owner: Please replace the placeholder URL above with the actual URL of your deployed application._
+[![Open Live Preview](https://img.shields.io/badge/Live%20Preview-Open-blue?style=for-the-badge)](https://ai.studio/apps/drive/17m_mHYt9oz04c747aXLoWjEGprtvkReV)
 
 ## Features
 
